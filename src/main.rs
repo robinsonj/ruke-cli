@@ -1,3 +1,5 @@
+mod duke;
+
 fn main() {
-    println!("Hello, world!");
+  duke::Game::new().run();
 }
