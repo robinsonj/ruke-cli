@@ -22,7 +22,6 @@ impl Game {
   }
 
   pub fn run(&mut self) {
-
     loop {
       match self.state {
         GameState::GameStart => {
@@ -43,6 +42,6 @@ impl Game {
   }
 
   pub fn setup(&mut self) {
-
+    self.board.init();
   }
 }
