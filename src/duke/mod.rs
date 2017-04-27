@@ -1,22 +1,27 @@
+mod board;
+mod space;
+
 #[derive(Debug)]
 pub enum GameState {
   GameStart,
-  GameRun
+  GameRun,
+  GameOver
 }
 
 pub struct Game {
-  state: GameState
+  state: GameState,
+  board: board::Board
 }
 
 impl Game {
   pub fn new() -> Game {
     Game {
-      state: GameState::GameStart
+      state: GameState::GameStart,
+      board: board::Board::new()
     }
   }
 
   pub fn run(&mut self) {
-    println!("Hello world!");
 
     loop {
       match self.state {
@@ -26,8 +31,12 @@ impl Game {
         },
         GameState::GameRun => {
           println!("Running game!");
-          break;
+          self.state = GameState::GameOver;
         },
+        GameState::GameOver => {
+          println!("Game over!");
+          break;
+        }
         // _ => ()
       }
     }
