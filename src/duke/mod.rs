@@ -23,17 +23,16 @@ impl Game {
 
   pub fn run(&mut self) {
     loop {
+      self.print_game();
       match self.state {
         GameState::GameStart => {
           self.setup();
           self.state = GameState::GameRun;
         },
         GameState::GameRun => {
-          println!("Running game!");
           self.state = GameState::GameOver;
         },
         GameState::GameOver => {
-          println!("Game over!");
           break;
         }
         // _ => ()
@@ -41,7 +40,12 @@ impl Game {
     }
   }
 
-  pub fn setup(&mut self) {
+  pub fn print_game(&mut self) {
+    println!("Game[state]: {:?}", self.state);
+    println!("Game[board]: {:?}", self.board);
+  }
+
+  fn setup(&mut self) {
     self.board.init();
   }
 }

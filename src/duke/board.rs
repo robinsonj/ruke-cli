@@ -1,3 +1,5 @@
+use std::fmt;
+
 use super::space::*;
 
 const NUM_SPACES: usize = 100;
@@ -42,7 +44,25 @@ impl Board {
 
       self.spaces.push(Space::new(space_type));
     }
+  }
+}
 
-    println!("Board: {:?}", self.spaces)
+impl fmt::Debug for Board {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    let mut board = String::new();
+
+    if self.spaces.len() == 0 { return write!(f, "Uninitialized."); }
+
+    for x in 0..10 {
+      board.push_str("\n   ");
+      for y in 0..10 {
+        board.push_str(&format!("{}", self.spaces[(y * 10) + x]));
+        if y != 10 {
+          board.push_str(" ");
+        }
+      }
+    }
+
+    write!(f, "{}", board)
   }
 }
