@@ -1,0 +1,6 @@
+# This configuration describes the "Footman" tile in The Duke.
+
+name = "Footman"
+
+startx = 2
+starty = 2
