@@ -1,5 +1,6 @@
 mod board;
 mod space;
+mod tile;
 
 #[derive(Debug)]
 pub enum GameState {
