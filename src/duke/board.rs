@@ -47,7 +47,7 @@ impl Board {
   }
 }
 
-impl fmt::Debug for Board {
+impl fmt::Display for Board {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let mut board = String::new();
 
