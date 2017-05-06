@@ -1,6 +1,7 @@
 mod board;
 mod space;
 mod tile;
+mod player;
 
 #[derive(Debug)]
 pub enum GameState {
@@ -11,7 +12,9 @@ pub enum GameState {
 
 pub struct Game {
   state: GameState,
-  board: board::Board
+  board: board::Board,
+  blue:  Option<Box<player::Player>>,
+  pink:  Option<Box<player::Player>>
 }
 
 impl Game {
