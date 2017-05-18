@@ -1,6 +1,9 @@
 mod board;
 mod space;
 mod tile;
+mod player;
+
+use duke::player::Player;
 
 #[derive(Debug)]
 pub enum GameState {
@@ -11,14 +14,18 @@ pub enum GameState {
 
 pub struct Game {
   state: GameState,
-  board: board::Board
+  board: board::Board,
+  blue:  Option<player::ai_random::Random>,
+  pink:  Option<player::ai_random::Random>
 }
 
 impl Game {
   pub fn new() -> Game {
     Game {
       state: GameState::GameStart,
-      board: board::Board::new()
+      board: board::Board::new(),
+      blue:  None,
+      pink:  None
     }
   }
 
@@ -32,6 +39,16 @@ impl Game {
         },
         GameState::GameRun => {
           self.state = GameState::GameOver;
+
+          match self.bp() {
+            Ok(p) => p.turn(),
+            Err(e) => println!("Error taking turn: {:?}", e)
+          }
+
+          match self.pp() {
+            Ok(p) => p.turn(),
+            Err(e) => println!("Error taking turn: {:?}", e)
+          }
         },
         GameState::GameOver => {
           break;
@@ -48,5 +65,15 @@ impl Game {
 
   fn setup(&mut self) {
     self.board.init();
+    self.blue = Some(player::ai_random::Random::init());
+    self.pink = Some(player::ai_random::Random::init());
+  }
+
+  fn bp(&self) -> Result<&player::ai_random::Random, String> {
+    Ok(self.blue.as_ref().unwrap().clone())
+  }
+
+  fn pp(&mut self) -> Result<&player::ai_random::Random, String> {
+    Ok(self.pink.as_ref().unwrap().clone())
   }
 }
