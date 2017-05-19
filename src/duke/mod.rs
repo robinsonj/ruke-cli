@@ -61,6 +61,7 @@ impl Game {
   pub fn print_game(&mut self) {
     println!("Game[state]: {:?}", self.state);
     println!("Game[board]: {}", self.board);
+    // println!("Game[board] (DEBUG): {:?}", self.board);
   }
 
   fn setup(&mut self) {

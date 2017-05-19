@@ -47,7 +47,7 @@ impl Board {
   }
 }
 
-impl fmt::Display for Board {
+impl fmt::Debug for Board {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let mut board = String::new();
 
@@ -56,12 +56,36 @@ impl fmt::Display for Board {
     for x in 0..10 {
       board.push_str("\n   ");
       for y in 0..10 {
-        board.push_str(&format!("{}", self.spaces[(y * 10) + x]));
+        board.push_str(&format!("{:?}", self.spaces[(y * 10) + x]));
         if y != 10 {
           board.push_str(" ");
         }
       }
     }
+
+    write!(f, "{}", board)
+  }
+}
+
+impl fmt::Display for Board {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    let mut board = String::new();
+
+    if self.spaces.len() == 0 { return write!(f, "Uninitialized."); }
+
+    board.push_str("\n     ---------------");
+
+    for x in 2..8 {
+      board.push_str("\n     | ");
+
+      for y in 2..8 {
+        board.push_str(&format!("{} ", self.spaces[(y * 10) + x]));
+      }
+
+      board.push_str("|");
+    }
+
+    board.push_str("\n     ---------------");
 
     write!(f, "{}", board)
   }

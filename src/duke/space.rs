@@ -35,7 +35,7 @@ impl fmt::Display for Space {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let message = match self.space_type {
       SpaceType::Playable | SpaceType::BlueStart | SpaceType:: PinkStart => "_",
-      _ => "X"
+      _ => ""
     };
 
     write!(f, "{}", message)
