@@ -12,9 +12,16 @@ pub enum GameState {
   GameOver
 }
 
+#[derive(Debug)]
+pub enum TurnState {
+  PinkTurn,
+  BlueTurn
+}
+
 pub struct Game {
   state: GameState,
   board: board::Board,
+  turn:  TurnState,
   blue:  Option<player::ai_random::Random>,
   pink:  Option<player::ai_random::Random>
 }
@@ -24,12 +31,15 @@ impl Game {
     Game {
       state: GameState::GameStart,
       board: board::Board::new(),
+      turn:  TurnState::PinkTurn,
       blue:  None,
       pink:  None
     }
   }
 
   pub fn run(&mut self) {
+    let mut turn_counter = 0;
+
     loop {
       self.print_game();
       match self.state {
@@ -38,16 +48,29 @@ impl Game {
           self.state = GameState::GameRun;
         },
         GameState::GameRun => {
-          self.state = GameState::GameOver;
+          turn_counter += 1;
 
-          match self.bp() {
-            Ok(p) => p.turn(),
-            Err(e) => println!("Error taking turn: {:?}", e)
+          if turn_counter > 20 {
+            self.state = GameState::GameOver;
           }
 
-          match self.pp() {
-            Ok(p) => p.turn(),
-            Err(e) => println!("Error taking turn: {:?}", e)
+          match self.turn {
+            TurnState::BlueTurn => {
+              match self.bp() {
+                Ok(p) => p.turn(),
+                Err(e) => println!("Error taking turn: {:?}", e)
+              };
+
+              self.turn = TurnState::PinkTurn;
+            },
+            TurnState::PinkTurn => {
+              match self.pp() {
+                Ok(p) => p.turn(),
+                Err(e) => println!("Error taking turn: {:?}", e)
+              };
+
+              self.turn = TurnState::BlueTurn;
+            }
           }
         },
         GameState::GameOver => {
@@ -60,6 +83,7 @@ impl Game {
 
   pub fn print_game(&mut self) {
     println!("Game[state]: {:?}", self.state);
+    println!("Game[turn]:  {:?}", self.turn);
     println!("Game[board]: {}", self.board);
     // println!("Game[board] (DEBUG): {:?}", self.board);
   }
