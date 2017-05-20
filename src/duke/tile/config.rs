@@ -1,9 +1,18 @@
 extern crate toml;
 
-use std::fs::File;
+use std;
 use std::io::prelude::*;
 
 use super::{Tile};
+
+#[derive(Debug)]
+enum Error {
+  OpenError(std::io::Error),
+  ReadError(std::io::Error),
+  ParseError(toml::de::Error)
+}
+
+type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
@@ -13,28 +22,27 @@ pub struct Config {
 }
 
 impl Config {
-  pub fn parse(path: String) -> Tile {
-    let mut config_toml = String::new();
+  fn parse(filename: &str) -> Result<Config> {
+    use std::io::Read;
 
-    let mut file = match File::open(&path) {
-      Ok(file) => file,
-      Err(_) => {
-        println!("Could not read config, using default.");
-        return Tile::new("Dummy".to_string(), 0, 0);
-      }
-    };
+    let mut f = std::fs::File::open(filename)
+      .map_err(Error::OpenError)?;
 
-    file.read_to_string(&mut config_toml)
-      .unwrap_or_else(|err| panic!("Error while reading config: [{}]", err));
+    let mut s = String::new();
 
-    let parsed: Config = toml::from_str(config_toml.as_str()).unwrap();
+    f.read_to_string(&mut s)
+      .map_err(Error::ReadError)?;
 
-    println!("{:?}", parsed);
+    toml::from_str(&s)
+      .map_err(Error::ParseError)
+  }
 
+  fn tile(&self) -> Tile {
+    // Tile::new(&mut self.name.unwrap(), self.startx.unwrap(), self.starty.unwrap())
     Tile {
-      name: "dump".to_string(),
-      x: 0,
-      y: 0
+      name: "test".to_string(),
+      x:    2,
+      y:    2
     }
   }
 }
@@ -45,6 +53,9 @@ mod tests {
 
   #[test]
   fn parse() {
-    let tile = Config::parse("data/tiles/footman.toml".to_string());
+    match Config::parse("data/tiles/footman.toml") {
+      Ok(c) => println!("Tile: {:?}", c),
+      Err(e) => println!("Error: {:?}", e)
+    }
   }
 }
