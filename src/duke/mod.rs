@@ -1,9 +1,11 @@
 mod board;
+mod color;
 mod space;
 mod tile;
 mod player;
 
 use duke::player::Player;
+use duke::color::Color;
 
 #[derive(Debug)]
 pub enum GameState {
@@ -12,16 +14,10 @@ pub enum GameState {
   GameOver
 }
 
-#[derive(Debug)]
-pub enum TurnState {
-  PinkTurn,
-  BlueTurn
-}
-
 pub struct Game {
   state: GameState,
   board: board::Board,
-  turn:  TurnState,
+  turn:  Color,
   blue:  Option<player::ai_random::Random>,
   pink:  Option<player::ai_random::Random>
 }
@@ -31,7 +27,7 @@ impl Game {
     Game {
       state: GameState::GameStart,
       board: board::Board::new(),
-      turn:  TurnState::PinkTurn,
+      turn:  Color::Pink,
       blue:  None,
       pink:  None
     }
@@ -55,21 +51,21 @@ impl Game {
           }
 
           match self.turn {
-            TurnState::BlueTurn => {
+            Color::Blue=> {
               match self.bp() {
                 Ok(p) => p.turn(),
                 Err(e) => println!("Error taking turn: {:?}", e)
               };
 
-              self.turn = TurnState::PinkTurn;
+              self.turn = Color::Pink;
             },
-            TurnState::PinkTurn => {
+            Color::Pink => {
               match self.pp() {
                 Ok(p) => p.turn(),
                 Err(e) => println!("Error taking turn: {:?}", e)
               };
 
-              self.turn = TurnState::BlueTurn;
+              self.turn = Color::Blue;
             }
           }
         },
