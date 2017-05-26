@@ -1,7 +1,6 @@
 extern crate toml;
 
 use std;
-use std::io::prelude::*;
 
 use super::{Tile};
 
