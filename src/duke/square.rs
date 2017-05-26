@@ -98,6 +98,14 @@ impl Square {
   }
 }
 
+impl fmt::Display for Square {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    write!(f, "{}{}", (('a' as u8) + ((self.0 % 6) as u8)) as char,
+                      (('1' as u8) + ((self.0 / 6) as u8)) as char
+    )
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use super::{Square, NUM_SQUARES};
@@ -249,5 +257,50 @@ mod tests {
 
     assert_eq!(None,                  Square::new(0).player_right(Color::Blue));
     assert_eq!(Some(Square::new(34)), Square::new(35).player_right(Color::Blue));
+  }
+
+  #[test]
+  fn display() {
+    assert_eq!("a1".to_owned(), format!("{}", Square::new(0)));
+    assert_eq!("a2".to_owned(), format!("{}", Square::new(6)));
+    assert_eq!("a3".to_owned(), format!("{}", Square::new(12)));
+    assert_eq!("a4".to_owned(), format!("{}", Square::new(18)));
+    assert_eq!("a5".to_owned(), format!("{}", Square::new(24)));
+    assert_eq!("a6".to_owned(), format!("{}", Square::new(30)));
+
+    assert_eq!("b1".to_owned(), format!("{}", Square::new(1)));
+    assert_eq!("b2".to_owned(), format!("{}", Square::new(7)));
+    assert_eq!("b3".to_owned(), format!("{}", Square::new(13)));
+    assert_eq!("b4".to_owned(), format!("{}", Square::new(19)));
+    assert_eq!("b5".to_owned(), format!("{}", Square::new(25)));
+    assert_eq!("b6".to_owned(), format!("{}", Square::new(31)));
+
+    assert_eq!("c1".to_owned(), format!("{}", Square::new(2)));
+    assert_eq!("c2".to_owned(), format!("{}", Square::new(8)));
+    assert_eq!("c3".to_owned(), format!("{}", Square::new(14)));
+    assert_eq!("c4".to_owned(), format!("{}", Square::new(20)));
+    assert_eq!("c5".to_owned(), format!("{}", Square::new(26)));
+    assert_eq!("c6".to_owned(), format!("{}", Square::new(32)));
+
+    assert_eq!("d1".to_owned(), format!("{}", Square::new(3)));
+    assert_eq!("d2".to_owned(), format!("{}", Square::new(9)));
+    assert_eq!("d3".to_owned(), format!("{}", Square::new(15)));
+    assert_eq!("d4".to_owned(), format!("{}", Square::new(21)));
+    assert_eq!("d5".to_owned(), format!("{}", Square::new(27)));
+    assert_eq!("d6".to_owned(), format!("{}", Square::new(33)));
+
+    assert_eq!("e1".to_owned(), format!("{}", Square::new(4)));
+    assert_eq!("e2".to_owned(), format!("{}", Square::new(10)));
+    assert_eq!("e3".to_owned(), format!("{}", Square::new(16)));
+    assert_eq!("e4".to_owned(), format!("{}", Square::new(22)));
+    assert_eq!("e5".to_owned(), format!("{}", Square::new(28)));
+    assert_eq!("e6".to_owned(), format!("{}", Square::new(34)));
+
+    assert_eq!("f1".to_owned(), format!("{}", Square::new(5)));
+    assert_eq!("f2".to_owned(), format!("{}", Square::new(11)));
+    assert_eq!("f3".to_owned(), format!("{}", Square::new(17)));
+    assert_eq!("f4".to_owned(), format!("{}", Square::new(23)));
+    assert_eq!("f5".to_owned(), format!("{}", Square::new(29)));
+    assert_eq!("f6".to_owned(), format!("{}", Square::new(35)));
   }
 }
