@@ -21,12 +21,17 @@ impl Color {
     *self as usize
   }
 
-  /// Convert a given color to a rank.
+  /// Get the color's backrank.
   pub fn backrank(&self) -> Rank {
     match *self {
       Color::Pink => Rank::First,
       Color::Blue => Rank::Sixth
     }
+  }
+
+  /// Get the opponent colors' backrank.
+  pub fn opponent_backrank(&self) -> Rank {
+    (!*self).backrank()
   }
 }
 
@@ -61,6 +66,12 @@ mod tests {
   fn backrank() {
     assert_eq!(Rank::First, Color::Pink.backrank());
     assert_eq!(Rank::Sixth, Color::Blue.backrank());
+  }
+
+  #[test]
+  fn opponent_backrank() {
+    assert_eq!(Rank::Sixth, Color::Pink.opponent_backrank());
+    assert_eq!(Rank::First, Color::Blue.opponent_backrank());
   }
 
   #[test]
