@@ -1,6 +1,10 @@
 use std::fmt;
 
-use super::space::*;
+use duke::space::*;
+use duke::color::{Color};
+use duke::file::{NUM_FILES};
+use duke::rank::*;
+use duke::square::{Square};
 
 const NUM_SPACES: usize = 100;
 
@@ -45,6 +49,17 @@ impl Board {
       self.spaces.push(Space::new(space_type));
     }
   }
+
+  pub fn starting_squares(&self, color: Color) -> Vec<Square> {
+    let mut vec = Vec::new();
+
+    if NUM_FILES % 2 == 0 {
+      vec.push(Square::new((color.backrank().index() * NUM_RANKS + ((NUM_FILES / 2) - 1)) as u8));
+      vec.push(Square::new((color.backrank().index() * NUM_RANKS + ((NUM_FILES / 2))) as u8));
+    }
+
+    vec
+  }
 }
 
 impl fmt::Debug for Board {
@@ -88,5 +103,22 @@ impl fmt::Display for Board {
     board.push_str("\n     ---------------");
 
     write!(f, "{}", board)
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::{Board};
+  use duke::color::{Color};
+  use duke::square::{Square};
+
+  #[test]
+  fn starting_squares() {
+    let b = Board::new();
+
+    assert_eq!(vec![Square::new(2),   Square::new(3)],
+               b.starting_squares(Color::Pink));
+    assert_eq!(vec![Square::new(32),  Square::new(33)],
+               b.starting_squares(Color::Blue));
   }
 }
