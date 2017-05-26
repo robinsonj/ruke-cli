@@ -29,6 +29,26 @@ impl File {
       *ALL_FILES.get_unchecked(i % NUM_FILES)
     }
   }
+
+  /// Get the file number of the File.
+  pub fn index(&self) -> usize {
+    *self as usize
+  }
+
+  /// Go left one rank and wrap.
+  pub fn left(&self) -> File {
+    // TODO: Fix handling of special case.
+    if self.index() == 0 {
+      return File::from_index(NUM_FILES - 1);
+    }
+
+    File::from_index(self.index().wrapping_sub(1))
+  }
+
+  /// Go right one rank and wrap.
+  pub fn right(&self) -> File {
+    File::from_index(self.index() + 1)
+  }
 }
 
 #[cfg(test)]
@@ -62,5 +82,35 @@ mod tests {
     assert_eq!(File::F, File::from_index(5));
     assert_eq!(File::A, File::from_index(6));
     assert_eq!(File::B, File::from_index(7));
+  }
+
+  #[test]
+  fn index() {
+    assert_eq!(0, File::A.index());
+    assert_eq!(1, File::B.index());
+    assert_eq!(2, File::C.index());
+    assert_eq!(3, File::D.index());
+    assert_eq!(4, File::E.index());
+    assert_eq!(5, File::F.index());
+  }
+
+  #[test]
+  fn left() {
+    assert_eq!(File::A, File::B.left());
+    assert_eq!(File::B, File::C.left());
+    assert_eq!(File::C, File::D.left());
+    assert_eq!(File::D, File::E.left());
+    assert_eq!(File::E, File::F.left());
+    assert_eq!(File::F, File::A.left());
+  }
+
+  #[test]
+  fn right() {
+    assert_eq!(File::A, File::F.right());
+    assert_eq!(File::B, File::A.right());
+    assert_eq!(File::C, File::B.right());
+    assert_eq!(File::D, File::C.right());
+    assert_eq!(File::E, File::D.right());
+    assert_eq!(File::F, File::E.right());
   }
 }
