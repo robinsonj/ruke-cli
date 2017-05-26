@@ -1,5 +1,6 @@
 use std::fmt;
 
+use duke::color::{Color};
 use duke::rank::{Rank};
 use duke::file::{File};
 
@@ -63,11 +64,44 @@ impl Square {
       Some(Square::make(self.rank(), self.file().left()))
     }
   }
+
+  /// Given a player color, get the Square one square forwards.
+  pub fn player_forward(&self, color: Color) -> Option<Square> {
+    match color {
+      Color::Pink => self.up(),
+      Color::Blue => self.down()
+    }
+  }
+
+  /// Given a player color, get the Square one square backwards.
+  pub fn player_backward(&self, color: Color) -> Option<Square> {
+    match color {
+      Color::Pink => self.down(),
+      Color::Blue => self.up()
+    }
+  }
+
+  /// Given a player color, get the Square one square left.
+  pub fn player_left(&self, color: Color) -> Option<Square> {
+    match color {
+      Color::Pink => self.left(),
+      Color::Blue => self.right()
+    }
+  }
+
+  /// Given a player color, get the Square one square right.
+  pub fn player_right(&self, color: Color) -> Option<Square> {
+    match color {
+      Color::Pink => self.right(),
+      Color::Blue => self.left()
+    }
+  }
 }
 
 #[cfg(test)]
 mod tests {
   use super::{Square, NUM_SQUARES};
+  use duke::color::{Color};
   use duke::rank::{Rank};
   use duke::file::{File};
 
@@ -179,5 +213,41 @@ mod tests {
     assert_eq!(Some(Square::new(2)),  Square::new(3).left());
     assert_eq!(Some(Square::new(3)),  Square::new(4).left());
     assert_eq!(Some(Square::new(4)),  Square::new(5).left());
+  }
+
+  #[test]
+  fn player_forward() {
+    assert_eq!(Some(Square::new(6)),  Square::new(0).player_forward(Color::Pink));
+    assert_eq!(None,                  Square::new(30).player_forward(Color::Pink));
+
+    assert_eq!(None,                  Square::new(0).player_forward(Color::Blue));
+    assert_eq!(Some(Square::new(24)), Square::new(30).player_forward(Color::Blue));
+  }
+
+  #[test]
+  fn player_backward() {
+    assert_eq!(None,                  Square::new(0).player_backward(Color::Pink));
+    assert_eq!(Some(Square::new(24)), Square::new(30).player_backward(Color::Pink));
+
+    assert_eq!(Some(Square::new(6)),  Square::new(0).player_backward(Color::Blue));
+    assert_eq!(None,                  Square::new(30).player_backward(Color::Blue));
+  }
+
+  #[test]
+  fn player_left() {
+    assert_eq!(None,                  Square::new(0).player_left(Color::Pink));
+    assert_eq!(Some(Square::new(34)), Square::new(35).player_left(Color::Pink));
+
+    assert_eq!(Some(Square::new(1)),  Square::new(0).player_left(Color::Blue));
+    assert_eq!(None,                  Square::new(35).player_left(Color::Blue));
+  }
+
+  #[test]
+  fn player_right() {
+    assert_eq!(Some(Square::new(1)),  Square::new(0).player_right(Color::Pink));
+    assert_eq!(None,                  Square::new(35).player_right(Color::Pink));
+
+    assert_eq!(None,                  Square::new(0).player_right(Color::Blue));
+    assert_eq!(Some(Square::new(34)), Square::new(35).player_right(Color::Blue));
   }
 }
