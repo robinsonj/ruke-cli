@@ -15,6 +15,7 @@ impl Square {
     Square(i)
   }
 
+  /// Create a new square given a Rake and File.
   pub fn make(r: Rank, f: File) -> Square {
     Square(6 * (r.index() as u8) + (f.index() as u8))
   }
