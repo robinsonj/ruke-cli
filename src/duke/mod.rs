@@ -1,5 +1,6 @@
 mod board;
 mod color;
+mod file;
 mod rank;
 mod space;
 mod tile;

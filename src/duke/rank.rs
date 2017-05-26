@@ -27,7 +27,7 @@ impl Rank {
   ///
   /// If the argument index is greater than the number of ranks, return the first
   /// rank.
-  pub fn from_index(mut i: usize) -> Rank {
+  pub fn from_index(i: usize) -> Rank {
     unsafe {
       *ALL_RANKS.get_unchecked(i % NUM_RANKS)
     }
