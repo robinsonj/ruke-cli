@@ -89,8 +89,8 @@ impl Game {
 
   fn setup(&mut self) {
     self.board.init();
-    self.blue = Some(player::ai_random::Random::init());
-    self.pink = Some(player::ai_random::Random::init());
+    self.blue = Some(player::ai_random::Random::new(Color::Blue));
+    self.pink = Some(player::ai_random::Random::new(Color::Pink));
   }
 
   fn bp(&self) -> Result<&player::ai_random::Random, String> {
