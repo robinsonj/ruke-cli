@@ -2,5 +2,14 @@
 
 name = "Footman"
 
-startx = 2
-starty = 2
+[A]
+x = 2
+y = 2
+
+moves = []
+
+[B]
+x = 2
+y = 2
+
+moves = []

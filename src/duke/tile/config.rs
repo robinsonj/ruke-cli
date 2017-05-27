@@ -2,7 +2,7 @@ extern crate toml;
 
 use std;
 
-use super::{Tile};
+use super::{Side, Tile};
 
 #[derive(Debug)]
 enum Error {
@@ -15,9 +15,9 @@ type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
-  name:   Option<String>,
-  startx: Option<u8>,
-  starty: Option<u8>
+  name: Option<String>,
+  A:    Option<Side>,
+  B:    Option<Side>
 }
 
 impl Config {
@@ -37,12 +37,7 @@ impl Config {
   }
 
   fn tile(&self) -> Tile {
-    // Tile::new(&mut self.name.unwrap(), self.startx.unwrap(), self.starty.unwrap())
-    Tile {
-      name: "test".to_string(),
-      x:    2,
-      y:    2
-    }
+    Tile::new(self.name.as_ref().unwrap().clone())
   }
 }
 
@@ -52,9 +47,11 @@ mod tests {
 
   #[test]
   fn parse() {
-    match Config::parse("data/tiles/footman.toml") {
-      Ok(c) => println!("Tile: {:?}", c),
-      Err(e) => println!("Error: {:?}", e)
-    }
+    let footman: Config = match Config::parse("data/tiles/footman.toml") {
+      Ok(c)   => c,
+      Err(e)  => panic!("Tile parse error: {:?}", e)
+    };
+
+    assert_eq!("Footman", footman.tile().name);
   }
 }

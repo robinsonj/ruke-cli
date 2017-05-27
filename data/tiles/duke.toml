@@ -1,0 +1,15 @@
+# This configuration describes the "Duke" tile in The Duke.
+
+name = "Duke"
+
+[A]
+x = 2
+y = 2
+
+moves = []
+
+[B]
+x = 2
+y = 2
+
+moves = []
