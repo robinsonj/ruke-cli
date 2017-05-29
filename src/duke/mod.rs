@@ -1,6 +1,7 @@
 mod board;
 mod color;
 mod file;
+mod move_type;
 mod rank;
 mod space;
 mod square;
@@ -9,6 +10,7 @@ mod player;
 
 use duke::player::Player;
 use duke::color::Color;
+use duke::move_type::{MoveType};
 
 #[derive(Debug)]
 pub enum GameState {
@@ -91,6 +93,8 @@ impl Game {
     self.board.init();
     self.blue = Some(player::ai_random::Random::new(Color::Blue));
     self.pink = Some(player::ai_random::Random::new(Color::Pink));
+
+    let pink_duke: Option<MoveType> = self.pink.as_ref().unwrap().setup_duke(&(self.board));
   }
 
   fn bp(&self) -> Result<&player::ai_random::Random, String> {
