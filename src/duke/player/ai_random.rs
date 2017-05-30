@@ -10,13 +10,14 @@ impl Random {
       color: color
     }
   }
-}
 
-impl super::Player for Random {
-  fn color(&self) -> Color {
+  pub fn color(&self) -> Color {
     self.color
   }
 
+}
+
+impl super::Player for Random {
   fn turn(&self) {
     println!("Random player taking turn")
   }
