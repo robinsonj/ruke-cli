@@ -50,8 +50,22 @@ impl Not for Color {
 
 #[cfg(test)]
 mod tests {
-  use super::Color;
+  use super::{Color, ALL_COLORS, NUM_COLORS};
   use duke::rank::Rank;
+
+  #[test]
+  fn num_colors() {
+    assert_eq!(2, NUM_COLORS);
+  }
+
+  #[test]
+  fn all_colors() {
+    assert_eq!(2, ALL_COLORS.len());
+    assert_eq!(ALL_COLORS, [
+      Color::Pink,
+      Color::Blue
+    ]);
+  }
 
   #[test]
   fn index() {
