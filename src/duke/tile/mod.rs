@@ -6,16 +6,16 @@ use duke::tile::side::{Side};
 #[derive(Debug, Deserialize)]
 pub struct Tile {
   name: String,
-  A:    Side,
-  B:    Side
+  a:    Side,
+  b:    Side
 }
 
 impl Tile {
   pub fn new(name: String) -> Tile {
     Tile {
       name: name,
-      A:    Side::new(),
-      B:    Side::new()
+      a:    Side::new(),
+      b:    Side::new()
     }
   }
 }

@@ -2,13 +2,13 @@
 
 name = "Footman"
 
-[A]
+[a]
 x = 2
 y = 2
 
 moves = []
 
-[B]
+[b]
 x = 2
 y = 2
 

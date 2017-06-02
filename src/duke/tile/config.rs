@@ -16,8 +16,8 @@ type Result<T> = std::result::Result<T, Error>;
 #[derive(Debug, Deserialize)]
 pub struct Config {
   name: Option<String>,
-  A:    Option<Side>,
-  B:    Option<Side>
+  a:    Option<Side>,
+  b:    Option<Side>
 }
 
 impl Config {
