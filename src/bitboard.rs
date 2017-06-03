@@ -1,11 +1,20 @@
-use std::ops::{BitAnd, BitOr, BitXor};
+use std::ops::{BitAnd, BitOr, BitXor, BitAndAssign, BitOrAssign, BitXorAssign,
+  Not};
 
 /// Classic Bitboard.
 #[derive(PartialEq, PartialOrd, Clone, Copy, Debug)]
 pub struct BitBoard(pub u64);
 
-pub const EMPTY:  BitBoard  = BitBoard(0);
+pub const EMPTY:  BitBoard  = BitBoard(0x0000000000000000u64);
 pub const FULL:   BitBoard  = BitBoard(0xFFFFFFFFFFFFFFFFu64);
+
+impl Not for BitBoard {
+  type Output = BitBoard;
+
+  fn not(self) -> BitBoard {
+    BitBoard(!self.0)
+  }
+}
 
 impl BitAnd for BitBoard {
   type Output = BitBoard;
@@ -31,6 +40,24 @@ impl BitXor for BitBoard {
   }
 }
 
+impl BitAndAssign for BitBoard {
+  fn bitand_assign(&mut self, other: BitBoard) {
+    self.0 &= other.0;
+  }
+}
+
+impl BitOrAssign for BitBoard {
+  fn bitor_assign(&mut self, other: BitBoard) {
+    self.0 |= other.0;
+  }
+}
+
+impl BitXorAssign for BitBoard {
+  fn bitxor_assign(&mut self, other: BitBoard) {
+    self.0 ^= other.0;
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use super::{BitBoard, EMPTY, FULL};
@@ -43,6 +70,11 @@ mod tests {
   #[test]
   fn full() {
     assert_eq!(FULL, BitBoard(<u64>::max_value()));
+  }
+
+  #[test]
+  fn not() {
+    assert_eq!(FULL, !EMPTY);
   }
 
   #[test]
@@ -62,5 +94,26 @@ mod tests {
   fn bitxor() {
     assert_eq!(FULL,                    EMPTY ^ FULL);
     assert_eq!(EMPTY,                   FULL ^ FULL);
+  }
+
+  #[test]
+  fn bitand_assign() {
+    let mut board = BitBoard(1);
+    board &= BitBoard(1);
+    assert_eq!(board, BitBoard(1));
+  }
+
+  #[test]
+  fn bitor_assign() {
+    let mut board = BitBoard(3);
+    board |= BitBoard(4);
+    assert_eq!(board, BitBoard(7));
+  }
+
+  #[test]
+  fn bitxor_assign() {
+    let mut board = BitBoard(1);
+    board ^= BitBoard(3);
+    assert_eq!(board, BitBoard(2));
   }
 }
