@@ -16,16 +16,15 @@ impl Random {
       color: color
     }
   }
-
-  pub fn color(&self) -> Color {
-    self.color
-  }
-
 }
 
 impl super::Player for Random {
   fn turn(&self) {
     println!("Random player taking turn")
+  }
+
+  fn color(&self) -> Color {
+    self.color
   }
 
   fn setup_duke(&self, board: &Board) -> Option<MoveType> {
