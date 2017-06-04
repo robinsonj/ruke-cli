@@ -14,8 +14,8 @@ impl Tile {
   pub fn new(name: String) -> Tile {
     Tile {
       name: name,
-      a:    Side::new(),
-      b:    Side::new()
+      a:    Side::new(2, 2),
+      b:    Side::new(2, 2)
     }
   }
 }
