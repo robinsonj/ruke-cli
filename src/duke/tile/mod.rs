@@ -11,11 +11,11 @@ pub struct Tile {
 }
 
 impl Tile {
-  pub fn new(name: String) -> Tile {
+  pub fn new(name: String, a: Side, b: Side) -> Tile {
     Tile {
       name: name,
-      a:    Side::new(2, 2),
-      b:    Side::new(2, 2)
+      a:    a,
+      b:    b
     }
   }
 }
@@ -23,11 +23,18 @@ impl Tile {
 #[cfg(test)]
 mod tests {
   use super::{Tile};
+  use duke::tile::side::Side;
 
   #[test]
   fn initialize() {
-    let tile = Tile::new("Test".to_string());
+    let a     = Side::new(2, 2);
+    let b     = Side::new(2, 2);
+    let tile  = Tile::new("Test".to_string(), a, b);
 
     assert_eq!(tile.name, "Test".to_string());
+    assert_eq!(tile.a.x(), 2);
+    assert_eq!(tile.a.y(), 2);
+    assert_eq!(tile.b.x(), 2);
+    assert_eq!(tile.b.y(), 2);
   }
 }

@@ -37,13 +37,18 @@ impl Config {
   }
 
   fn tile(&self) -> Tile {
-    Tile::new(self.name.as_ref().unwrap().clone())
+    Tile::new(
+      self.name.as_ref().unwrap().clone(),
+      self.a.unwrap().clone(),
+      self.b.unwrap().clone()
+    )
   }
 }
 
 #[cfg(test)]
 mod tests {
   use super::{Config};
+  use duke::tile::Tile;
 
   #[test]
   fn parse() {
@@ -53,5 +58,20 @@ mod tests {
     };
 
     assert_eq!("Footman", footman.tile().name);
+  }
+
+  fn tile() {
+    let footman: Config = match Config::parse("data/tiles/footman.toml") {
+      Ok(c)   => c,
+      Err(e)  => panic!("Tile parse error: {:?}", e)
+    };
+
+    let tile: Tile = footman.tile();
+
+    assert_eq!(tile.name, "Footman");
+    assert_eq!(tile.a.x(), 2);
+    assert_eq!(tile.a.y(), 2);
+    assert_eq!(tile.b.x(), 2);
+    assert_eq!(tile.b.y(), 2);
   }
 }

@@ -1,4 +1,4 @@
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Copy, Clone, Debug, Deserialize, PartialEq)]
 pub struct Side {
   x:      u8,
   y:      u8
@@ -10,6 +10,14 @@ impl Side {
       x: x,
       y: y
     }
+  }
+
+  pub fn x(&self) -> u8 {
+    self.x
+  }
+
+  pub fn y(&self) -> u8 {
+    self.y
   }
 }
 
