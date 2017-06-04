@@ -5,8 +5,11 @@ use duke::file::{NUM_FILES};
 use duke::rank::*;
 use duke::square::{Square};
 
+pub const GRAVEYARD:  u8  = 255;
+pub const BAG:        u8  = 254;
 pub const NUM_SPACES: usize = NUM_FILES * NUM_RANKS;
 
+#[derive(PartialEq)]
 pub struct Board {
   state: Vec<u8>,
   color: BitBoard,
@@ -111,10 +114,20 @@ impl fmt::Display for Board {
 
 #[cfg(test)]
 mod tests {
-  use super::{Board, NUM_SPACES};
+  use super::{Board, BAG, GRAVEYARD, NUM_SPACES};
   use bitboard::{BitBoard, EMPTY};
   use duke::color::{Color};
   use duke::square::{Square};
+
+  #[test]
+  fn bag() {
+    assert_eq!(254, BAG);
+  }
+
+  #[test]
+  fn graveyard() {
+    assert_eq!(255, GRAVEYARD);
+  }
 
   #[test]
   fn new() {
