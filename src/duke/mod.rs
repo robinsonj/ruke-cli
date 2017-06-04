@@ -3,7 +3,6 @@ mod color;
 mod file;
 mod move_type;
 mod rank;
-mod space;
 mod square;
 mod tile;
 mod player;
