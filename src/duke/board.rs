@@ -1,15 +1,16 @@
 use std::fmt;
-
-use duke::space::*;
+use bitboard::{BitBoard, EMPTY, FULL};
 use duke::color::{Color};
 use duke::file::{NUM_FILES};
 use duke::rank::*;
 use duke::square::{Square};
 
-const NUM_SPACES: usize = 100;
+pub const NUM_SPACES: usize = NUM_FILES * NUM_RANKS;
 
 pub struct Board {
-  spaces: Vec<Space>
+  state: Vec<u8>,
+  color: BitBoard,
+  dukes: BitBoard
 }
 
 ///
@@ -28,7 +29,9 @@ pub struct Board {
 impl Board {
   pub fn new() -> Board {
     Board {
-      spaces: Vec::with_capacity(NUM_SPACES)
+      state: vec![0; NUM_SPACES],
+      color: EMPTY,
+      dukes: EMPTY
     }
   }
 
@@ -108,9 +111,19 @@ impl fmt::Display for Board {
 
 #[cfg(test)]
 mod tests {
-  use super::{Board};
+  use super::{Board, NUM_SPACES};
+  use bitboard::{BitBoard, EMPTY};
   use duke::color::{Color};
   use duke::square::{Square};
+
+  #[test]
+  fn new() {
+    assert_eq!(Board::new(), Board {
+      state: vec![0; NUM_SPACES],
+      color: EMPTY,
+      dukes: EMPTY
+    });
+  }
 
   #[test]
   fn starting_squares() {
